@@ -1,14 +1,17 @@
 import json
 import os
 import unittest
+from base64 import b64decode, b64encode
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import patch
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 import httpx2
 from openai import APIStatusError, OpenAI
+from resvg_py import svg_to_bytes
 
-from llm_gateway import ModelClient, complete_json, gemini_router, llm_client
+from llm_gateway import GROQ_MODEL, ModelClient, complete_json, llm_client, provider_router
 
 
 class GatewayTests(unittest.TestCase):
@@ -109,7 +112,7 @@ class GatewayTests(unittest.TestCase):
                 },
             },
         }
-        self.addCleanup(gemini_router.cache_clear)
+        self.addCleanup(provider_router.cache_clear)
         with (
             TemporaryDirectory() as directory,
             patch("llm_gateway.LOCAL_ENV", Path(directory) / ".env"),
@@ -127,3 +130,48 @@ class GatewayTests(unittest.TestCase):
             self.assertIn(key, keys)
             self.assertEqual(config["thinkingConfig"]["thinkingLevel"].lower(), "high")
             self.assertEqual(config["response_mime_type"], "application/json")
+
+    def test_groq_takes_over_only_failed_gemini_call_and_groups_all_previews(self):
+        request = httpx2.Request("POST", "https://provider.invalid")
+        unavailable = APIStatusError("Test overload", response=httpx2.Response(503, request=request), body=None)
+        success = SimpleNamespace(choices=[
+            SimpleNamespace(finish_reason="stop", message=SimpleNamespace(content='{"ok": true}')),
+        ])
+        router = Mock()
+        router.completion.side_effect = [unavailable, success]
+        preview_svg = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><rect width="12" height="12" fill="red"/></svg>'
+        preview_url = "data:image/png;base64," + b64encode(svg_to_bytes(svg_string=preview_svg)).decode("ascii")
+        parts = []
+        for index in range(4):
+            parts.extend([
+                {"type": "text", "text": f"Preview {index}"},
+                {"type": "image_url", "image_url": {"url": preview_url}},
+            ])
+        messages = [{"role": "user", "content": parts}]
+        settings = {
+            "LITELLM_API_KEY_1": "gemini-test",
+            "GROQ_API_KEY": '["groq-first", "groq-second", "groq-first", "groq-third", "groq-fourth"]',
+            "LLM_REASONING_EFFORT": "high",
+        }
+
+        with (
+            TemporaryDirectory() as directory,
+            patch("llm_gateway.LOCAL_ENV", Path(directory) / ".env"),
+            patch.dict(os.environ, settings, clear=True),
+            patch("llm_gateway.provider_router", return_value=router) as factory,
+            llm_client() as client,
+        ):
+            reply = complete_json(client, messages, {"type": "json_object"})
+
+        self.assertEqual(json.loads(reply), {"ok": True})
+        self.assertEqual(factory.call_args.args[-1], ("groq-first", "groq-second", "groq-third", "groq-fourth"))
+        gemini_call, groq_call = [call.kwargs for call in router.completion.call_args_list]
+        self.assertEqual(gemini_call["messages"], messages)
+        self.assertEqual(groq_call["model"], GROQ_MODEL)
+        self.assertEqual(groq_call["reasoning_effort"], "high")
+        self.assertEqual(groq_call["extra_body"], {"reasoning_format": "hidden"})
+        content = groq_call["messages"][0]["content"]
+        self.assertEqual([part["text"] for part in content[:4]], [f"Preview {i}" for i in range(4)])
+        sheet, = [part["image_url"]["url"] for part in content if part["type"] == "image_url"]
+        white_sheet = '<svg xmlns="http://www.w3.org/2000/svg" width="1008" height="672"><rect width="1008" height="672" fill="white"/></svg>'
+        self.assertNotEqual(b64decode(sheet.split(",", 1)[1]), svg_to_bytes(svg_string=white_sheet))
