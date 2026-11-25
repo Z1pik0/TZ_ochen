@@ -1,0 +1,24 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Local credentials and transient catalog files
+/.cache/
+/.env
+/compose.local.yaml
+/catalog.json.lock
+/.catalog-*.tmp
+
+# Local source archives
+/*.zip
+
+# Frontend build and dependencies
+/frontend/dist/
+/frontend/node_modules/

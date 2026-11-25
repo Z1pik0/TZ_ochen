@@ -1,0 +1,370 @@
+{
+  "book": {
+    "description": "Раскрытая книга с чистыми страницами и свисающей из переплета лентой-закладкой. Предмет показан под углом в изометрии.",
+    "anchors": {
+      "on_left_page": {
+        "x": 0.35,
+        "y": 0.48
+      },
+      "on_right_page": {
+        "x": 0.65,
+        "y": 0.32
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/book.svg",
+        "width": 1446.0,
+        "height": 977.0
+      },
+      "L_bg": {
+        "file": "L/bg/book.svg",
+        "width": 1446.0,
+        "height": 977.0
+      },
+      "S_main": {
+        "file": "S/main/book.svg",
+        "width": 723.0,
+        "height": 489.0
+      },
+      "S_bg": {
+        "file": "S/bg/book.svg",
+        "width": 723.0,
+        "height": 489.0
+      }
+    },
+    "source_sha256": "68829d512f20f3f8f4007cd0222a67c4caf2e520c798f0d25b341b0bac329e34"
+  },
+  "coin": {
+    "description": "Цилиндрическая кнопка показана в изометрическом ракурсе. На плоской верхней поверхности изображен контурный значок висячего замка с замочной скважиной.",
+    "anchors": {
+      "lock": {
+        "x": 0.415,
+        "y": 0.315
+      },
+      "surface": {
+        "x": 0.475,
+        "y": 0.36
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/coin.svg",
+        "width": 287.0,
+        "height": 189.0
+      },
+      "L_bg": {
+        "file": "L/bg/coin.svg",
+        "width": 287.0,
+        "height": 189.0
+      },
+      "S_main": {
+        "file": "S/main/coin.svg",
+        "width": 153.0,
+        "height": 101.0
+      },
+      "S_bg": {
+        "file": "S/bg/coin.svg",
+        "width": 153.0,
+        "height": 101.0
+      }
+    },
+    "source_sha256": "586739a9eda53b8c8244f04a636cf7ef07e27b7242fde5650d1894505113f248"
+  },
+  "folder": {
+    "description": "Прямоугольная папка для документов в изометрии, внутри которой лежит стопка бумаги с перфорированным краем.",
+    "anchors": {
+      "folder_cover": {
+        "x": 0.58,
+        "y": 0.52
+      },
+      "papers": {
+        "x": 0.37,
+        "y": 0.32
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/folder.svg",
+        "width": 1241.0,
+        "height": 659.0
+      },
+      "L_bg": {
+        "file": "L/bg/folder.svg",
+        "width": 1241.0,
+        "height": 659.0
+      },
+      "S_main": {
+        "file": "S/main/folder.svg",
+        "width": 621.0,
+        "height": 330.0
+      },
+      "S_bg": {
+        "file": "S/bg/folder.svg",
+        "width": 621.0,
+        "height": 330.0
+      }
+    },
+    "source_sha256": "e1037dd7a46055af35529ee6dfebf3cd19f1e8e20af62fee562d35acc5f01251"
+  },
+  "headphones": {
+    "description": "Накладные наушники с широким дугообразным ободком и круглыми чашками представлены в ракурсе сверху. Конструкция включает мягкое внутреннее покрытие оголовья и объемные амбушюры.",
+    "anchors": {
+      "headband": {
+        "x": 0.55,
+        "y": 0.1
+      },
+      "left_earcup": {
+        "x": 0.212,
+        "y": 0.38
+      },
+      "right_earcup": {
+        "x": 0.725,
+        "y": 0.769
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/headphones.svg",
+        "width": 889.0,
+        "height": 692.0
+      },
+      "L_bg": {
+        "file": "L/bg/headphones.svg",
+        "width": 889.0,
+        "height": 692.0
+      },
+      "S_main": {
+        "file": "S/main/headphones.svg",
+        "width": 445.0,
+        "height": 346.0
+      },
+      "S_bg": {
+        "file": "S/bg/headphones.svg",
+        "width": 445.0,
+        "height": 346.0
+      }
+    },
+    "source_sha256": "92331c4dd96e99ad1464e62e8ef5d3e00dc3017d66d0f92012da993d2d1cb35a"
+  },
+  "lamp": {
+    "description": "Настольная лампа в изометрическом ракурсе состоит из прямоугольного основания, изогнутой стойки и многоугольного плафона с лампочкой внутри. Конструкция включает цилиндрический элемент на ножке и шестиугольную форму абажура.",
+    "anchors": {
+      "base": {
+        "x": 0.315,
+        "y": 0.78
+      },
+      "lampshade": {
+        "x": 0.645,
+        "y": 0.21
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/lamp.svg",
+        "width": 946.0,
+        "height": 1129.0
+      },
+      "L_bg": {
+        "file": "L/bg/lamp.svg",
+        "width": 946.0,
+        "height": 1129.0
+      },
+      "S_main": {
+        "file": "S/main/lamp.svg",
+        "width": 473.0,
+        "height": 565.0
+      },
+      "S_bg": {
+        "file": "S/bg/lamp.svg",
+        "width": 473.0,
+        "height": 565.0
+      }
+    },
+    "source_sha256": "046415a0303750389e6bdc35c42111d1c86d14ff1f27b1997c78aa1716d677f5"
+  },
+  "pen": {
+    "description": "Автоматическая ручка в изометрическом ракурсе с клипом на корпусе и ребристой зоной захвата у конического наконечника. На торце расположен кнопочный механизм.",
+    "anchors": {
+      "clip": {
+        "x": 0.275,
+        "y": 0.21
+      },
+      "body": {
+        "x": 0.48,
+        "y": 0.5
+      },
+      "grip": {
+        "x": 0.66,
+        "y": 0.72
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/pen.svg",
+        "width": 509.0,
+        "height": 286.0
+      },
+      "L_bg": {
+        "file": "L/bg/pen.svg",
+        "width": 509.0,
+        "height": 286.0
+      },
+      "S_main": {
+        "file": "S/main/pen.svg",
+        "width": 255.0,
+        "height": 143.0
+      },
+      "S_bg": {
+        "file": "S/bg/pen.svg",
+        "width": 255.0,
+        "height": 143.0
+      }
+    },
+    "source_sha256": "984f57e42399caa21c5e7b5e55cb9a6c52bc3b50260bc93fc15c418ce244685d"
+  },
+  "phone": {
+    "description": "Прямоугольный смартфон в изометрии с закругленными углами, динамиком и кнопкой «Домой» на лицевой панели. На экране отображены соединенные детали пазла.",
+    "anchors": {
+      "screen": {
+        "x": 0.48,
+        "y": 0.43
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/phone.svg",
+        "width": 797.0,
+        "height": 462.0
+      },
+      "L_bg": {
+        "file": "L/bg/phone.svg",
+        "width": 797.0,
+        "height": 462.0
+      },
+      "S_main": {
+        "file": "S/main/phone.svg",
+        "width": 399.0,
+        "height": 231.0
+      },
+      "S_bg": {
+        "file": "S/bg/phone.svg",
+        "width": 399.0,
+        "height": 231.0
+      }
+    },
+    "source_sha256": "212505ebd177da83d300e79aeba18f3e51d8f37b63bc0ed097ca62fe44323114"
+  },
+  "puzzle": {
+    "description": "Два соединенных элемента пазла в изометрической проекции с объемными краями и соединительными выступами. На поверхности каждой детали отчетливо видны характерные выемки и замки.",
+    "anchors": {
+      "left_piece": {
+        "x": 0.32,
+        "y": 0.28
+      },
+      "right_piece": {
+        "x": 0.65,
+        "y": 0.55
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/puzzle.svg",
+        "width": 545.0,
+        "height": 314.0
+      },
+      "L_bg": {
+        "file": "L/bg/puzzle.svg",
+        "width": 545.0,
+        "height": 314.0
+      },
+      "S_main": {
+        "file": "S/main/puzzle.svg",
+        "width": 273.0,
+        "height": 157.0
+      },
+      "S_bg": {
+        "file": "S/bg/puzzle.svg",
+        "width": 273.0,
+        "height": 157.0
+      }
+    },
+    "source_sha256": "aa421956a60050153ae59b326b6bf7292047ac9b31f36382108092f436d453c5"
+  },
+  "vase": {
+    "description": "Фигурная ваза с узким горлышком и шарообразным основанием наполнена тюльпанами на длинных стеблях. Бутоны цветов имеют овальную форму и собраны в объемную композицию с выступающими листьями.",
+    "anchors": {
+      "vase_body": {
+        "x": 0.5,
+        "y": 0.78
+      },
+      "central_tulip": {
+        "x": 0.55,
+        "y": 0.34
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/vase.svg",
+        "width": 591.0,
+        "height": 748.0
+      },
+      "L_bg": {
+        "file": "L/bg/vase.svg",
+        "width": 591.0,
+        "height": 748.0
+      },
+      "S_main": {
+        "file": "S/main/vase.svg",
+        "width": 324.0,
+        "height": 409.0
+      },
+      "S_bg": {
+        "file": "S/bg/vase.svg",
+        "width": 324.0,
+        "height": 409.0
+      }
+    },
+    "source_sha256": "61b53b61ed3100249ba2c89f314eadaa8be6f31549ed871905779258a1a3e739"
+  },
+  "wallet": {
+    "description": "Прямоугольный кошелек в изометрии с декоративной строчкой по периметру и застежкой-лямкой на кнопке. Из отделения выглядывает пластиковая карта.",
+    "anchors": {
+      "wallet_center": {
+        "x": 0.45,
+        "y": 0.42
+      },
+      "strap": {
+        "x": 0.635,
+        "y": 0.26
+      },
+      "card": {
+        "x": 0.535,
+        "y": 0.715
+      }
+    },
+    "variants": {
+      "L_main": {
+        "file": "L/main/wallet.svg",
+        "width": 631.0,
+        "height": 397.0
+      },
+      "L_bg": {
+        "file": "L/bg/wallet.svg",
+        "width": 631.0,
+        "height": 397.0
+      },
+      "S_main": {
+        "file": "S/main/wallet.svg",
+        "width": 316.0,
+        "height": 199.0
+      },
+      "S_bg": {
+        "file": "S/bg/wallet.svg",
+        "width": 316.0,
+        "height": 199.0
+      }
+    },
+    "source_sha256": "2ce2224df5563d73ef064d1b9e71438ecf464aac57b23b1424e7ed1e08e99bcd"
+  }
+}

@@ -1,0 +1,15 @@
+[project]
+name = "tz-diz"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.165.0",
+    "filelock>=4.3.1",
+    "httpx2>=2.16.2",
+    "openai>=3.59.0",
+    "pydantic>=2.14.4",
+    "resvg-py>=0.5.0",
+    "uvicorn>=0.54.0",
+]
