@@ -8,7 +8,7 @@ from unittest.mock import patch
 import httpx2
 from openai import APIStatusError, OpenAI
 
-from llm_gateway import ModelClient, complete_json, llm_client
+from llm_gateway import ModelClient, complete_json, gemini_router, llm_client
 
 
 class GatewayTests(unittest.TestCase):
@@ -59,3 +59,71 @@ class GatewayTests(unittest.TestCase):
         body = json.loads(request.content)
         self.assertEqual(body["model"], "my-model")
         self.assertNotIn("reasoning_effort", body)
+
+    def test_litellm_uses_numbered_keys_and_preserves_high_thinking_on_fallback(self):
+        import httpx
+
+        attempts = []
+        primary, fallback = "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"
+        keys = [f"test-key-{index}" for index in range(1, 5)]
+        settings = {
+            **{f"LITELLM_API_KEY_{index}": key for index, key in enumerate(keys, start=1)},
+            "LITELLM_LOCAL_MODEL_COST_MAP": "True",
+            "LLM_MODEL": "ignored-direct-model",
+            "LLM_REASONING_EFFORT": "high",
+        }
+
+        def respond(request):
+            model = request.url.path.rsplit("/", 1)[-1].removesuffix(":generateContent")
+            payload = json.loads(request.content)
+            attempts.append((model, request.headers.get("x-goog-api-key"), payload["generationConfig"]))
+            if model == primary:
+                return httpx.Response(503, request=request, json={
+                    "error": {"code": 503, "status": "UNAVAILABLE", "message": "Test overload"},
+                })
+            return httpx.Response(200, request=request, json={
+                "candidates": [{
+                    "content": {"role": "model", "parts": [{"text": "{\"ok\": true}"}]},
+                    "index": 0,
+                    "finishReason": "STOP",
+                }],
+                "usageMetadata": {"promptTokenCount": 8, "candidatesTokenCount": 6, "totalTokenCount": 14},
+            })
+
+        def send(_client, request, **_):
+            return respond(request)
+
+        async def async_send(_client, request, **_):
+            return respond(request)
+
+        schema = {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "Check",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {"ok": {"type": "boolean"}},
+                    "required": ["ok"],
+                    "additionalProperties": False,
+                },
+            },
+        }
+        self.addCleanup(gemini_router.cache_clear)
+        with (
+            TemporaryDirectory() as directory,
+            patch("llm_gateway.LOCAL_ENV", Path(directory) / ".env"),
+            patch.dict(os.environ, settings, clear=True),
+            patch.object(httpx.Client, "send", send),
+            patch.object(httpx.AsyncClient, "send", async_send),
+            llm_client() as client,
+        ):
+            reply = complete_json(client, [{"role": "user", "content": "Return JSON"}], schema)
+
+        self.assertEqual(json.loads(reply), {"ok": True})
+        models = [model for model, _, _ in attempts]
+        self.assertEqual(models, [primary, primary, primary, fallback])
+        for _, key, config in attempts:
+            self.assertIn(key, keys)
+            self.assertEqual(config["thinkingConfig"]["thinkingLevel"].lower(), "high")
+            self.assertEqual(config["response_mime_type"], "application/json")
